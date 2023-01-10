@@ -8,7 +8,12 @@ const app = express()
 app.use(express.static(__dirname + '/public'))
 
 // silnik szablonow handlebars
-app.engine('handlebars', expressHandlebars({ extname: 'hbs' }))
+// app.engine('handlebars', require(xpressHandlebars).__express)
+// app.engine('handlebars', expressHandlebars.__express)
+// app.set(‘views’, path.join(__dirname, ‘templates’))
+app.engine('handlebars', expressHandlebars({
+  defaultLayout: 'main',
+}))
 app.set('view engine', 'handlebars')
 
 // przykladowy tekst
@@ -23,8 +28,19 @@ app.set('view engine', 'handlebars')
 //   username: req.session.username
 // })
 // })
-app.use('/', (req, res) =>
-res.render('home', ) )
+
+// Strona glowna
+app.get('/', (req, res) =>
+res.render('home' ) )
+
+// Kontakt
+app.get('/kontakt', (req, res) => {
+  res.type('text/html')
+  res.render('kontakt')
+})
+
+
+
 // Niestandardowa strona 404
 app.use((req, res) => {
     res.type('text/plain')
@@ -36,9 +52,9 @@ app.use((req, res) => {
     console.error(err.message)
     res.type('text/plain')
     res.status(500)
-    res.send('500 - Błąd serwera')
+    res.send('500 - server wyjebał sie')
   })
   // nasluchiwanie servera
   app.listen(PORT, () => console.log(
-    `Express został uruchomiony pod adresem http://localhost:${PORT}; ` +
-    `naciśnij Ctrl-C, aby zakończyć.`))
+    `server start 3300`
+    ))
