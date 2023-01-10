@@ -1,21 +1,20 @@
 require("dotenv").config()
-// const { request } = require('express')
+const { request } = require('express')
 const express = require('express')
-const handlebars = require('express-handlebars')
-
+const expressHandlebars = require('express-handlebars').engine
 const PORT = process.env.PORT || 3300
 const app = express()
 // Pliki statyczne
 app.use(express.static(__dirname + '/public'))
 
 // silnik szablonow handlebars
-app.engine('handlebars', expressHandlebars({ extname: '.hbs' }))
-app.set('view engine', '.hbs')
+app.engine('handlebars', expressHandlebars({ extname: 'hbs' }))
+app.set('view engine', 'handlebars')
 
 // przykladowy tekst
-app.get('*', (req, res) => {
-res.type('text/plain')
-res.send("hello word")})
+// app.get('*', (req, res) => {
+// res.type('text/plain')
+// res.send("hello word")})
 // app.get((req, res) => {
 // res.render('*', {
 //   message: 'Witaj, szanowny programisto!',
@@ -24,7 +23,8 @@ res.send("hello word")})
 //   username: req.session.username
 // })
 // })
-
+app.use('/', (req, res) =>
+res.render('home', ) )
 // Niestandardowa strona 404
 app.use((req, res) => {
     res.type('text/plain')
