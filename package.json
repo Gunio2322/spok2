@@ -12,6 +12,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-cli": "^0.0.1",
+    "express-handlebars": "^6.0.6",
     "morgan": "^1.10.0"
   }
 }
