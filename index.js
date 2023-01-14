@@ -1,37 +1,86 @@
-require("dotenv").config()
+require('dotenv').config()
+var http = require('http');
+var util = require('util');
 const { request } = require('express')
 const express = require('express')
 const expressHandlebars = require('express-handlebars').engine
 const PORT = process.env.PORT || 3300
 const app = express()
+
 // Pliki statyczne
 app.use(express.static(__dirname + '/public'))
 
-// silnik szablonow handlebars
-// app.engine('handlebars', require(xpressHandlebars).__express)
-// app.engine('handlebars', expressHandlebars.__express)
-// app.set(‘views’, path.join(__dirname, ‘templates’))
-app.engine('handlebars', expressHandlebars({
-  defaultLayout: 'main',
-}))
+
+app.engine(
+  'handlebars',
+  expressHandlebars({
+    defaultLayout: 'main',
+  }),
+)
 app.set('view engine', 'handlebars')
 
-// przykladowy tekst
-// app.get('*', (req, res) => {
-// res.type('text/plain')
-// res.send("hello word")})
-// app.get((req, res) => {
-// res.render('*', {
-//   message: 'Witaj, szanowny programisto!',
-//   style: req.query.style,
-//   userid: req.cookies.userid,
-//   username: req.session.username
-// })
-// })
+
 
 // Strona glowna
-app.get('/', (req, res) =>
-res.render('home' ) )
+app.get('/', (req, res) => res.render('home'))
+
+// Przesyłanie formulaza
+// app.get('/formulaz', (req, res) => res.render('formulaz'))
+
+// do sprawdaznia formulaza czy response jest prawidłowy
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({extended:true}))
+
+// funkcja do obsługi formulaza
+app.get('/formulaz', (req, res) => {
+
+
+res.render('formulaz', {csrf: 'miejsce na token csrf'})
+})
+
+app.post('/formulaz/process', (req, res) => {
+  // console.log('wpisany color):' + req.query.form)
+  console.log('Token CSRF (z ukrytego pola formularza): ' + req.body._csrf)
+  // przekierowanie na wybrana strone
+  res.redirect(303, '/thanks')
+})
+
+
+
+
+
+app.get('/thanks', (req, res) => res.render('thanks'))
+
+
+// Przesyłanie plikow
+app.get('/foto', (req, res) => res.render('foto'))
+
+
+const multiparty = require('multiparty')
+app.post('/foto', (req, res) => {
+  const form = new multiparty.Form()
+  form.parse(req, (err, fields, files) => {
+
+ res.send('send cos')
+
+})
+})
+// res.writeHead(200, { 'content-type': 'text/html' });
+// res.send(
+//   '<form action="/upload" enctype="multipart/form-data" method="post">'+
+//   '<input type="text" name="title"><br>'+
+//   '<input type="file" name="upload" multiple="multiple"><br>'+
+//   '<input type="submit" value="Upload">'+
+//   '</form>'
+// );
+// app.post('/api/foto', (req, res) => {
+//   const form = new multiparty.Form()
+//   form.parse(req, (err, fields, files) => {
+//     if(err) return api.foto(req, res, err.message)
+//     api.foto(req, res, fields, files)
+//   })
+// })
+
 
 // Kontakt
 app.get('/kontakt', (req, res) => {
@@ -39,22 +88,18 @@ app.get('/kontakt', (req, res) => {
   res.render('kontakt')
 })
 
-
-
 // Niestandardowa strona 404
 app.use((req, res) => {
-    res.type('text/plain')
-    res.status(404)
-    res.send('404 - Nie znaleziono')
-  })
-  // Niestandardowa strona 500 
-  app.use((err, req, res, next) => {
-    console.error(err.message)
-    res.type('text/plain')
-    res.status(500)
-    res.send('500 - server wyjebał sie')
-  })
-  // nasluchiwanie servera
-  app.listen(PORT, () => console.log(
-    `server start 3300`
-    ))
+  res.type('text/plain')
+  res.status(404)
+  res.send('404 - Nie znaleziono')
+})
+// Niestandardowa strona 500
+app.use((err, req, res, next) => {
+  console.error(err.message)
+  res.type('text/plain')
+  res.status(500)
+  res.send('500 - server wyjebał sie')
+})
+// nasluchiwanie servera
+app.listen(PORT, () => console.log(`server start 3300`))
