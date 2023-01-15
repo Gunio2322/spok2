@@ -1,0 +1,47 @@
+<div id ="formFetchContainer">
+<form  role="form" id="formFetch">
+    {{!-- <input type="hidden" name="hush" val="ukryte, lecz nie tajne!"> --}}
+    <div>
+        <label for="fieldColor">Ulubiony kolor: </label>
+        <input type="email" id="fieldColor" name="email">
+    </div>
+    <div>
+        <button type="submit">Prześlij</button>
+    </div>
+</form>
+</div>
+<script>
+
+const ffc = document.getElementById("formFetch");
+ffc.addEventListener('submit', event => {
+event.preventDefault();
+//pobiez element na ktorym wystapilo zdarzenie event
+const form = event.target;
+
+
+
+const body = JSON.stringify({
+       // _csrf: form.elements._csrf.value,
+        email: form.elements.email.value,
+      })
+
+//console.log(event)
+const headers = { 'Content-Type': 'application/json' };
+const container = document.getElementById('formFetchContainer')
+        fetch('/api/formFetch', { method: 'post', body, headers })
+  .then((res) => res.json())
+  //.then((res) => {
+  //     console.log(res);
+  //  })
+  .then(json => {
+          container.innerHTML = '<b>Mail wyslany!</b>'
+        })
+        .catch(err => {
+          container.innerHTML = `<b>Przykro nam, wystąpił problem ` +
+            `podczas wysylania. Spróbuj <a href="/formFetch">ponownie</a>`
+        })
+
+    })
+
+
+</script>

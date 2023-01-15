@@ -33,11 +33,9 @@ app.use(bodyParser.urlencoded({extended:true}))
 
 // funkcja do obsługi formulaza
 app.get('/formulaz', (req, res) => {
-
-
 res.render('formulaz', {csrf: 'miejsce na token csrf'})
 })
-
+// wysylanie POST bo to moment proces
 app.post('/formulaz/process', (req, res) => {
   // console.log('wpisany color):' + req.query.form)
   console.log('Token CSRF (z ukrytego pola formularza): ' + req.body._csrf)
@@ -45,11 +43,17 @@ app.post('/formulaz/process', (req, res) => {
   res.redirect(303, '/thanks')
 })
 
-
-
-
-
 app.get('/thanks', (req, res) => res.render('thanks'))
+
+
+// formulaz za pomoca fetch
+app.get('/formFetch', (req, res) => res.render('formFetch'))
+app.post('/api/formFetch', (req, res) => {
+  
+  res.send({ result: 'success' })
+})
+
+
 
 
 // Przesyłanie plikow
@@ -65,21 +69,6 @@ app.post('/foto', (req, res) => {
 
 })
 })
-// res.writeHead(200, { 'content-type': 'text/html' });
-// res.send(
-//   '<form action="/upload" enctype="multipart/form-data" method="post">'+
-//   '<input type="text" name="title"><br>'+
-//   '<input type="file" name="upload" multiple="multiple"><br>'+
-//   '<input type="submit" value="Upload">'+
-//   '</form>'
-// );
-// app.post('/api/foto', (req, res) => {
-//   const form = new multiparty.Form()
-//   form.parse(req, (err, fields, files) => {
-//     if(err) return api.foto(req, res, err.message)
-//     api.foto(req, res, fields, files)
-//   })
-// })
 
 
 // Kontakt
