@@ -1,0 +1,12 @@
+<h2>Przesylanie plikow img/*</h2>
+
+<form id = "form" role = "form" nctype = "multipart/form-data" method = "POST" action = "/imgFetch">
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
+
+  <input type="file" required accept="image/*" id="fieldFoto" name="photo" />
+
+  <button type="submit" >wyslij</button>
+
+</form>
+
+<output id="output"></output>

@@ -6,7 +6,7 @@ const express = require('express')
 const expressHandlebars = require('express-handlebars').engine
 const PORT = process.env.PORT || 3300
 const app = express()
-
+const multiparty = require('multiparty')
 // Pliki statyczne
 app.use(express.static(__dirname + '/public'))
 
@@ -59,15 +59,14 @@ app.post('/api/formFetch', (req, res) => {
 
 
 // Przesyłanie plikow
-app.get('/foto', (req, res) => res.render('foto'))
+app.get('/imgFetch', (req, res) => res.render('imgFetch'))
 
 
-const multiparty = require('multiparty')
-app.post('/foto', (req, res) => {
+app.post('/api/imgFetch', (req, res) => {
   const form = new multiparty.Form()
   form.parse(req, (err, fields, files) => {
 
- res.send('send cos')
+    res.send({ result: 'success' })
 
 })
 })

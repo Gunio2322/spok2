@@ -1,6 +1,6 @@
 <h2>Przesylanie plikow img/*</h2>
 
-<form id="form" nctype="multipart/form-data" method="POST" action="/foto">
+<form id = "form" role = "form" nctype = "multipart/form-data" method = "POST" action = "/foto">
   <input type="hidden" name="_csrf" value="{{csrf}}" />
 
   <input type="file" required accept="image/*" id="fieldPhoto" name="photo" />
