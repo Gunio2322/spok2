@@ -38,7 +38,8 @@ res.render('formulaz', {csrf: 'miejsce na token csrf'})
 // wysylanie POST bo to moment proces
 app.post('/formulaz/process', (req, res) => {
   // console.log('wpisany color):' + req.query.form)
-  console.log('Token CSRF (z ukrytego pola formularza): ' + req.body._csrf)
+  // console.log(req.body._csrf)
+  console.log(req.body.color)
   // przekierowanie na wybrana strone
   res.redirect(303, '/thanks')
 })
@@ -49,8 +50,9 @@ app.get('/thanks', (req, res) => res.render('thanks'))
 // formulaz za pomoca fetch
 app.get('/formFetch', (req, res) => res.render('formFetch'))
 app.post('/api/formFetch', (req, res) => {
-  
+
   res.send({ result: 'success' })
+  // console.log(req.body.color)
 })
 
 
