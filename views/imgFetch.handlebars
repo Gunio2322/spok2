@@ -1,12 +1,16 @@
-<h2>Przesylanie plikow img/*</h2>
+<div id="formContainer">
+  <form method="post" enctype="multipart/form-data">
+    <input type="file" name="myFile" />
+    <button type="submit">Submit</button>
+  </form>
+</div>
 
-<form id = "form" role = "form" nctype = "multipart/form-data" method = "POST" action = "/imgFetch">
-  <input type="hidden" name="_csrf" value="{{csrf}}" />
+<script>
+  const formEvent = document.querySelector("form")
+  formEvent.addEventListener('submit', event => { 
+    event.preventDefault();
+    const body = new FormData(event.target);
+   console.log(body) 
+  })
 
-  <input type="file" required accept="image/*" id="fieldFoto" name="photo" />
-
-  <button type="submit" >wyslij</button>
-
-</form>
-
-<output id="output"></output>
+</script>

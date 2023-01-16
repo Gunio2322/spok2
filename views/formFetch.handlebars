@@ -17,6 +17,7 @@ ffc.addEventListener('submit', event => {
 event.preventDefault();
 //pobiez element na ktorym wystapilo zdarzenie event
 const form = event.target;
+console.log(form)
 
 
 
@@ -24,7 +25,7 @@ const body = JSON.stringify({
        // _csrf: form.elements._csrf.value,
         color: form.elements.color.value,
       })
-
+console.log(body)
 //console.log(event)
 const headers = { 'Content-Type': 'application/json' };
 const container = document.getElementById('formFetchContainer')

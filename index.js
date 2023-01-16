@@ -1,6 +1,6 @@
 require('dotenv').config()
-var http = require('http');
-var util = require('util');
+const http = require('http');
+const util = require('util');
 const { request } = require('express')
 const express = require('express')
 const expressHandlebars = require('express-handlebars').engine
@@ -51,25 +51,31 @@ app.get('/thanks', (req, res) => res.render('thanks'))
 app.get('/formFetch', (req, res) => res.render('formFetch'))
 app.post('/api/formFetch', (req, res) => {
 
-  res.send({ result: 'success' })
+ 
   // console.log(req.body.color)
 })
 
 
 
 
-// Przesyłanie plikow
-app.get('/imgFetch', (req, res) => res.render('imgFetch'))
+// Przesyłanie plikow przez przeglądarke
+
+app.get('/imgBrow', (req, res) => res.render('imgBrow', {csrf: 'miejsce na token csrf'} ))
 
 
-app.post('/api/imgFetch', (req, res) => {
+app.post('/imgBrow/process', (req, res) => {
   const form = new multiparty.Form()
   form.parse(req, (err, fields, files) => {
-
-    res.send({ result: 'success' })
-
+   
+if(err) return res.status(500).send({message: err.message})
+// res.writeHead(200, {'content-type': 'multipart/form-data'})
+// res.write('received upload:\n\n');
+    res.redirect(303, '/thanks')
 })
 })
+// przesylanie plikow FETCH
+app.get('/imgFetch', (req, res) => res.render('imgFetch', {csrf: 'miejsce na token csrf'} ))
+
 
 
 // Kontakt
