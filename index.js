@@ -50,13 +50,8 @@ app.get('/thanks', (req, res) => res.render('thanks'))
 // formulaz za pomoca fetch
 app.get('/formFetch', (req, res) => res.render('formFetch'))
 app.post('/api/formFetch', (req, res) => {
-
- 
   // console.log(req.body.color)
 })
-
-
-
 
 // Przesyłanie plikow przez przeglądarke
 
@@ -73,10 +68,14 @@ if(err) return res.status(500).send({message: err.message})
     res.redirect(303, '/thanks')
 })
 })
+
+
 // przesylanie plikow FETCH
-app.get('/imgFetch', (req, res) => res.render('imgFetch', {csrf: 'miejsce na token csrf'} ))
+app.get('/imgFetch', (req, res) => res.render('imgFetch', {csrf: ''} ))
 
+app.post("/api/imgFetch", (req, res) =>{
 
+})
 
 // Kontakt
 app.get('/kontakt', (req, res) => {

@@ -1,16 +1,33 @@
 <div id="formContainer">
-  <form method="post" enctype="multipart/form-data">
-    <input type="file" name="myFile" />
+  <form  method="POST" enctype="multipart/form-data">
+    <input type='file' name='photo' required  accept='image/*' />
     <button type="submit">Submit</button>
   </form>
 </div>
 
 <script>
   const formEvent = document.querySelector("form")
+
   formEvent.addEventListener('submit', event => { 
     event.preventDefault();
     const body = new FormData(event.target);
-   console.log(body) 
+const url = '/api/imgFetch'
+//const headers = { 'Content-Type': 'application/json' };
+fetch(url, { method: 'post', body })
+
+ .then(res => {
+          if(res.status < 200 || res.status >= 300)
+            throw new Error(`Żądanie zakończyło się niepowodzeniem ${res.status}`)
+          return res.json()
+ })
+ .then(json => {
+          formContainer.innerHTML = '<b>Dziękujemy za przesłanie zdjęcia!</b>'
+        })
+        .catch(err => {
+          formContainer.innerHTML = `<b>Przykro nam, wystąpił problem podczas przetwarzania ` +
+            `przesłanego pliku.  Spróbuj <a href="/newsletter">ponownie</a>`
+        })
+ 
   })
 
 </script>
