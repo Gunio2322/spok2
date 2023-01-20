@@ -3,10 +3,15 @@ const http = require('http');
 const util = require('util');
 const { request } = require('express')
 const express = require('express')
+const bodyParser = require('body-parser')
 const expressHandlebars = require('express-handlebars').engine
 const PORT = process.env.PORT || 3300
 const app = express()
 const multiparty = require('multiparty')
+const cookieParser = require('cookie-parser')
+const expressSession = require('express-sesion')
+const { credentials } = require('./config')
+//# sourceMappingURL=path/to/source.map
 // Pliki statyczne
 app.use(express.static(__dirname + '/public'))
 
@@ -20,16 +25,51 @@ app.engine(
 app.set('view engine', 'handlebars')
 
 
+// PROBA module.exports
+// var msg = require('./Message.js');
 
-// Strona glowna
-app.get('/', (req, res) => res.render('home'))
+// console.log(msg);
+
+
+
 
 // Przesyłanie formulaza
 // app.get('/formulaz', (req, res) => res.render('formulaz'))
 
 // do sprawdaznia formulaza czy response jest prawidłowy
-const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.urlencoded({extended: true}))
+
+
+// COOKIES
+
+app.use(cookieParser(credentials.cookieSecret))
+// app.use(expressSession({
+//   resave: false,
+//   saveUninitialized: false,
+//   secret: credentials.cookieSecret,
+// }))
+
+// res.cookie('monster', 'nom nom')
+// res.cookie('signed_monster', 'nom nom', { signed: true })
+// const monster = req.cookies.monster
+// console.log(monster)
+app.use(expressSession({
+  resave: false,
+  saveUninitialized: false,
+  secret: credentials.cookieSecret,
+}))
+
+
+// Strona glowna
+app.get('/', (req, res) => {res.render('home')
+res.cookie('monsters', 'nom   nom')
+res.cookie('palant', 'nom nompalant')
+res.cookie('monsterek', 'nomnom', { signed: true })
+
+// console.log(monster)
+
+}
+)
 
 // funkcja do obsługi formulaza
 app.get('/formulaz', (req, res) => {
@@ -39,7 +79,7 @@ res.render('formulaz', {csrf: 'miejsce na token csrf'})
 app.post('/formulaz/process', (req, res) => {
   // console.log('wpisany color):' + req.query.form)
   // console.log(req.body._csrf)
-  console.log(req.body.color)
+  // console.log(req.body.color)
   // przekierowanie na wybrana strone
   res.redirect(303, '/thanks')
 })

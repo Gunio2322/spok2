@@ -12,8 +12,9 @@
     event.preventDefault();
     const body = new FormData(event.target);
 const url = '/api/imgFetch'
-//const headers = { 'Content-Type': 'application/json' };
-fetch(url, { method: 'post', body })
+const headers = { 'Sec-Fetch-Mode': 'no-cors', 'Content-Type': 'multipart/form-data' }
+fetch(url, { method: 'post', body, headers,
+ })
 
  .then(res => {
           if(res.status < 200 || res.status >= 300)
