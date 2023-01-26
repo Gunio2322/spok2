@@ -23,6 +23,10 @@ const app = express()
     }),
   )
 app.set('view engine', 'handlebars')
+app.get('/', (req, res) => res.render('home'))
+
+
+
 
 async function main() {
     let testAccount = await nodemailer.createTestAccount();
@@ -31,18 +35,20 @@ async function main() {
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-          user: "emma.pouros64@ethereal.email", // generated ethereal user
-          pass: "KGARaJgDQg8bh1H7SA", // generated ethereal password
+          // user: "emma.pouros64@ethereal.email", // generated ethereal user
+          user: credentials.sendgrid.user,
+pass: credentials.sendgrid.password
+          // pass: "KGARaJgDQg8bh1H7SA", // generated ethereal password
         },
       });
 
 // send mail with defined transport object
 let info = await transporter.sendMail({
     from: '"Fred Foo 👻" <foo@example.com>', // sender address
-    to: "bar@example.com, baz@example.com", // list of receivers
+    to: "bar@example.com", // list of receivers
     subject: "Hello ✔", // Subject line
-    text: "Hello worldek?", // plain text body
-    html: "<b>Hello worldon?</b>", // html body
+    text: "Hello worldekton?", // plain text body
+    html: "<b>Hello worldon kutas?</b>", // html body
   });
   console.log("Message sent: %s", info.messageId);
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
